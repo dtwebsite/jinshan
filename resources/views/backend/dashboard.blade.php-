@@ -1,0 +1,55 @@
+@extends('backend.layouts.main')
+@section('page_content')
+<div class="row" style="display: inline-block;">
+  <div class="tile_count">
+    <h1>關於我們</h1>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-certificate"></i> 認證</span>
+      <div class="count">{{ $certification }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-file-image-o"></i> 生產設備-圖片</span>
+      <div class="count">{{ $production_equipment }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-sitemap"></i> 生產設備-項目</span>
+      <div class="count">{{ $production_equipmentDetail }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-file-image-o"></i> 檢測設備-圖片</span>
+      <div class="count">{{ $testing_equipment }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-sitemap"></i> 檢測設備-項目</span>
+      <div class="count">{{ $testing_equipment_detail }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-users"></i> 客戶</span>
+      <div class="count">{{ $client }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-history"></i> 歷史</span>
+      <div class="count">{{ $history }}</div>
+    </div>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-file-image-o"></i> 歷史-圖片</span>
+      <div class="count">{{ $history_img }}</div>
+    </div>
+    <h1>商品管理</h1>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-shopping-cart"></i> 商品列表</span>
+      <div class="count">{{ $products }}</div>
+    </div>
+    <h1>製程管理</h1>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-tasks"></i> 製程列表</span>
+      <div class="count">{{ $process }}</div>
+    </div>
+    <h1>聯絡我們</h1>
+    <div class="col-md-2 col-sm-4  tile_stats_count">
+      <span class="count_top"><i class="fa fa-envelope-o"></i> 回饋表單</span>
+      <div class="count">{{ $contact }}</div>
+    </div>
+  </div>
+</div>
+@endsection

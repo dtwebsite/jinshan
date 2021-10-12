@@ -1,0 +1,130 @@
+@section('process_edit_modal')
+{{-- 修改功能Start --}}
+<div class="modal fade" id="modal-edit">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">編輯製程</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="edit_form">
+					{{ csrf_field() }}
+					<div class="box-body">
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">標題</label>
+							<div class="col-sm-10">
+								<input type="text" name="title" class="form-control" required="required">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">首頁簡介</label>
+							<div class="col-sm-10">
+								<textarea name="content" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">內頁簡介</label>
+							<div class="col-sm-10">
+								<textarea name="inner_content" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">圖片</label>
+							<div class="col-sm-10">
+								<div class="img_content"></div>
+								<input id="img" type="file" accept="image/*" name="img" class="form-control">
+								<p class="mt-2">圖片尺寸:<mark>750px X 750px</mark></p>
+								<small class="text-danger">*中英文版的製程圖片，需分開上傳</small>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">狀態</label>
+							<div class="col-sm-10">
+								<select name="status" class="form-control">
+									<option value="1" selected="selected">啟用</option>
+									<option value="0">停用</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 control-label">順序</label>
+							<div class="col-sm-10">
+								<input type="number" name="sort" class="form-control" min="1" max="99999">
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="lang" value="">
+					<input type="hidden" name="process_id" value="">
+					<input type="hidden" name="_method" value="PUT">
+					<button type="submit" class="btn btn-secondary float-right">儲存</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{{-- 修改功能End --}}
+@endsection
+@push('script')
+<script type="text/javascript">
+	function process_edit(){
+		$('.edit').click(function(){
+			$('#modal-edit').modal('show');
+			document.getElementById('edit_form').reset();
+			var process_id = $(this).data('process_id');
+			var data_lang = $(this).data('lang');
+			$('.img_content').html('');
+			$.get('{{ asset('admin/process') }}/'+process_id+'/edit',function(res){
+				$.each(res,function(k,v){
+					var title = v.title||'';
+					var content = v.content||'';
+					var inner_content = v.inner_content||'';
+					var img = v.img||'';
+					var status = v.status||'';
+					var lang = v.lang||'';
+					if(lang != data_lang){
+						return;
+					}else{
+						$('[name=title]').val(title);
+						$('[name=content]').val(content);
+						$('[name=inner_content]').val(inner_content);
+						$('.img_content').append('<img src="/'+img+'">');
+						$('[name=status]').val(status);
+						$('[name=sort]').val(v.sort);
+						$('[name=lang]').val(lang);
+						$('[name=process_id]').val(v.process_id);
+					}
+
+				});
+			});
+		})
+	}
+	$('#edit_form').submit(function(){
+		var formdata = new FormData(this);
+		var process_id = $('[name=process_id]').val();
+		$.ajax({
+			type:"POST",
+			url:'{{ asset("admin/process")}}/'+process_id,
+			dataType:'json',
+			data:formdata,
+			async: false,
+			cache: false,
+			processData: false,
+			contentType: false,
+			success: function (e) {
+				Swal.fire(
+					e.message,
+					'已修改製程。',
+					e.status
+				);
+				$('#modal-edit').modal('hide');
+				var data = {};
+				process_list(data);
+			}
+		})
+		return false;
+	});
+</script>
+@endpush
